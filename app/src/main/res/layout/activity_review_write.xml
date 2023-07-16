@@ -33,7 +33,7 @@
         android:text="튜브짜개"/>
 
     <RatingBar
-        android:id="@+id/EtRatingBar"
+        android:id="@+id/RatingBar"
         style="?android:attr/ratingBarStyleIndicator"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
