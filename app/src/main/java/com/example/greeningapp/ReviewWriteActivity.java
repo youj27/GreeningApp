@@ -56,7 +56,7 @@ public class ReviewWriteActivity extends AppCompatActivity {
 
         cancelButton = findViewById(R.id.cancelButton);
 
-        ratingbar = findViewById(R.id.EtRatingBar);
+        ratingbar = findViewById(R.id.RatingBar);
         ratingbar.setOnRatingBarChangeListener(new Listener());
 
         ActivityResultLauncher<Intent> activityResultLauncher = registerForActivityResult(
@@ -143,6 +143,7 @@ public class ReviewWriteActivity extends AppCompatActivity {
     private void uploadToFirebase(Uri uri){
 
         String caption = uploadCaption.getText().toString();
+        float rating = ratingbar.getRating();
         final StorageReference imageReference = storageReference.child(System.currentTimeMillis() + "." + getFileExtension(uri));
 
         imageReference.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -151,7 +152,7 @@ public class ReviewWriteActivity extends AppCompatActivity {
                 imageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                     @Override
                     public void onSuccess(Uri uri) {
-                        DataClass dataClass = new DataClass(uri.toString(), caption);
+                        DataClass dataClass = new DataClass(uri.toString(), caption, rating);
                         String key = databaseReference.push().getKey();
                         databaseReference.child(key).setValue(dataClass);
                         Toast.makeText(ReviewWriteActivity.this, "Uploaded", Toast.LENGTH_SHORT).show();
