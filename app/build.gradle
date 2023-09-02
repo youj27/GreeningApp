@@ -33,9 +33,15 @@ dependencies {
 
     implementation 'de.hdodenhof:circleimageview:3.1.0'
 
+    implementation 'com.google.firebase:firebase-auth-ktx:22.1.1'  //login, register
+    implementation 'com.google.firebase:firebase-database-ktx:20.2.2'   //login, register
+
+    implementation 'androidx.viewpager2:viewpager2:1.0.0'        //가로 슬라이더01
+    implementation 'me.relex:circleindicator:2.1.6'  //메인 슬라이드 점점점
+
     implementation 'com.github.bumptech.glide:glide:4.11.0'
-    implementation 'com.google.firebase:firebase-storage:20.1.0'
-    implementation 'com.google.firebase:firebase-database:20.1.0'
+    implementation 'com.google.firebase:firebase-storage:20.2.1'
+    implementation 'com.google.firebase:firebase-database:20.2.2'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
 
     implementation 'com.github.bumptech.glide:glide:4.11.0'
@@ -47,4 +53,5 @@ dependencies {
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+
 }

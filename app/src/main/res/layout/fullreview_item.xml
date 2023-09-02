@@ -10,8 +10,7 @@
         android:layout_width="400dp"
         android:layout_height="160dp"
         android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:background="@drawable/round_corner">
+        android:layout_alignParentTop="true">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/pro"
@@ -36,7 +35,7 @@
             </de.hdodenhof.circleimageview.CircleImageView>
 
             <TextView
-                android:id="@+id/textview"
+                android:id="@+id/fullreviewUsername"
                 android:layout_width="wrap_content"
                 android:layout_height="25dp"
                 android:layout_marginStart="80dp"
@@ -50,7 +49,7 @@
             </TextView>
 
             <RatingBar
-                android:id="@+id/recyclerRatingBar"
+                android:id="@+id/fullreviewRatingBar"
                 style="@style/Widget.AppCompat.RatingBar.Small"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -63,13 +62,13 @@
                 android:rating="4.5"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/cirimage"
-                app:layout_constraintTop_toBottomOf="@+id/textview"
+                app:layout_constraintTop_toBottomOf="@+id/fullreviewUsername"
                 app:layout_constraintVertical_bias="1.0">
 
             </RatingBar>
 
             <TextView
-                android:id="@+id/textview2"
+                android:id="@+id/fullreviewDate"
                 android:layout_width="wrap_content"
                 android:layout_height="21dp"
                 android:layout_marginTop="4dp"
@@ -92,7 +91,7 @@
             app:layout_constraintStart_toStartOf="parent">
 
             <ImageView
-                android:id="@+id/recyclerImage"
+                android:id="@+id/fullreviewImage"
                 android:layout_width="75dp"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/cirimage"
@@ -100,10 +99,9 @@
                 android:src="@drawable/ic_launcher_background"></ImageView>
 
             <TextView
-                android:id="@+id/recyclerCaption"
+                android:id="@+id/fullreviewEt"
                 android:layout_width="140dp"
                 android:layout_height="20dp"
-                android:layout_below="@+id/ratingbarpro"
                 android:layout_marginLeft="25dp"
                 android:layout_marginTop="12dp"
                 android:layout_toRightOf="@+id/image2"

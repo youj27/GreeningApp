@@ -5,114 +5,119 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ReviewWriteActivity">
+    tools:context=".MainActivity">
 
-    <TextView
-        android:id="@+id/reviewTool"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:textSize="20dp"
-        android:text="후기작성"/>
+        android:layout_height="wrap_content">
 
-    <ImageView
-        android:id="@+id/profileIv"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_margin="5dp"
-        android:layout_gravity="center"
-        android:src="@drawable/product1" />
-
-    <TextView
-        android:id="@+id/pNameTv"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:textSize="18dp"
-        android:text="튜브짜개"/>
-
-    <RatingBar
-        android:id="@+id/RatingBar"
-        style="?android:attr/ratingBarStyleIndicator"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:isIndicator="false"
-        android:max="5"
-        android:numStars="5"
-        android:rating="5"
-        android:stepSize="0.5" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="20dp"
-        android:weightSum="10">
-
-
-    </LinearLayout>
-
-    <EditText
-        android:id="@+id/uploadCaption"
-        android:layout_width="match_parent"
-        android:layout_height="170dp"
-        android:gravity="top"
-        android:hint="후기를 작성해주세요"
-        android:inputType="textMultiLine"
-        android:lines="8"
-        android:maxLines="10"
-        android:minLines="5"
-        android:scrollbars="vertical"></EditText>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="140dp"
-        android:layout_gravity="center"
-        android:orientation="vertical">
-
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="사진 첨부"
-            android:textSize="20dp"/>
+            android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/uploadImage"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="left"
-            android:layout_margin="4dp"
-            android:src="@drawable/ic_launcher_background" />
+            <TextView
+                android:id="@+id/reviewTool"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:textSize="20dp"
+                android:text="후기작성"/>
+
+            <ImageView
+                android:id="@+id/writePImg"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:src="@drawable/ic_launcher_background" />
+
+            <TextView
+                android:id="@+id/writePname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textSize="18dp"
+                android:text="상품명"/>
+
+            <TextView
+                android:id="@+id/reviewDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textSize="18sp"
+                android:text=""/>
+
+            <RatingBar
+                android:id="@+id/writeRatingBar"
+                style="?android:attr/ratingBarStyleIndicator"
+                android:progressTint="@android:color/holo_orange_light"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:isIndicator="false"
+                android:max="5"
+                android:numStars="5"
+                android:rating="5"
+                android:stepSize="0.5" />
+
+            <EditText
+                android:id="@+id/writeReviewEt"
+                android:layout_width="match_parent"
+                android:layout_height="170dp"
+                android:gravity="top"
+                android:hint="후기를 작성해주세요"
+                android:inputType="textMultiLine"
+                android:lines="8"
+                android:maxLines="10"
+                android:minLines="5"
+                android:scrollbars="vertical" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="사진 첨부"
+                android:textSize="20dp"/>
+
+            <ImageView
+                android:id="@+id/writeUploadImage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:layout_margin="4dp"
+                android:src="@drawable/ic_launcher_background" />
 
 
-    </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/writeCancelBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="5"
+                    android:gravity="center"
+                    android:text="취소">
+
+                </Button>
+
+                <Button
+                    android:id="@+id/writeUploadBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="5"
+                    android:gravity="center"
+                    android:onClick="btn_Click"
+                    android:text="확인"></Button>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
 
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:orientation="horizontal"
-        android:weightSum="10">
-
-        <Button
-            android:id="@+id/cancelButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="5"
-            android:gravity="center"
-            android:text="취소"></Button>
-
-        <Button
-            android:id="@+id/uploadButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="5"
-            android:gravity="center"
-            android:onClick="btn_Click"
-            android:text="확인"></Button>
-
-    </LinearLayout>
 
 </LinearLayout>
