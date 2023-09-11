@@ -160,11 +160,18 @@ public class ReviewWriteActivity extends AppCompatActivity {
                     float rating = RatingBarEt.getRating();
                     String reviewDate = mDate.getText().toString();
 
+                    //String pname = Pname.getText().toString();
+                    //String pimg = product.getOrderImg();
+//                    String pname = product.getProductName(); // 제품 이름을 product 객체에서 가져옵니다.
+//                    String pimg = product.getOrderImg();
+
                     // Create a HashMap to store the review data
                     HashMap<String, Object> reviewwriteMap = new HashMap<>();
                     reviewwriteMap.put("pid", product.getProductId());
                     reviewwriteMap.put("pname", product.getProductName());
                     reviewwriteMap.put("pimg", product.getOrderImg());
+//                    reviewwriteMap.put("pname", pname); // 제품 이름을 저장합니다.
+//                    reviewwriteMap.put("pimg", pimg);
                     reviewwriteMap.put("username", product.getUserName());
                     reviewwriteMap.put("Review_image", reviewImage);
                     reviewwriteMap.put("Write_review", fn);

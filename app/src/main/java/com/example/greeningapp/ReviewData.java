@@ -9,6 +9,9 @@ public class ReviewData {
     private String productName;
     private int pid;
 
+    private  String orderImg;
+    private String userid;
+
     public ReviewData() {
     }
 
@@ -59,5 +62,21 @@ public class ReviewData {
 
     public void setPid(int pid) {
         this.pid = pid;
+    }
+
+    public String getOrderImg() {
+        return orderImg;
+    }
+
+    public void setOrderImg(String orderImg) {
+        this.orderImg = orderImg;
+    }
+
+    public String getUserid() {
+        return userid;
+    }
+
+    public void setUserid(String userid) {
+        this.userid = userid;
     }
 }

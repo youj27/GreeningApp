@@ -37,7 +37,7 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.MyViewHold
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         Glide.with(holder.itemView).load(dataList.get(position).getReview_image()).into(holder.recyclerImage);
         holder.recyclerEt.setText(String.valueOf(dataList.get(position).getWrite_review()));
-        //holder.recyclerEt.setText(String.valueOf(dataList.get(position).getWrite_review()));
+        holder.reviewdate.setText(String.valueOf(dataList.get(position).getReview_date()));
         holder.recyclerRatingbar.setRating(dataList.get(position).getRating());
     }
 
