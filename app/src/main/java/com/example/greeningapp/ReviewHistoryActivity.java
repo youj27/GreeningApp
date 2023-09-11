@@ -71,7 +71,6 @@ public class ReviewHistoryActivity extends AppCompatActivity {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myOrderReference = database.getReference("MyOrder");
 
-// ValueEventListener를 사용하여 데이터를 가져옵니다.
         myOrderReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
