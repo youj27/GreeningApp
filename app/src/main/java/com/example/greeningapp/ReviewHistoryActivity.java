@@ -109,7 +109,7 @@ public class ReviewHistoryActivity extends AppCompatActivity {
                 Log.e("ReviewHistoryActivity", String.valueOf(databaseError.toException()));
             }
         });
-        adapter = new ReviewHistoryAdapter(dataList, MyOrderPList, this); //MyOrderPList 잠시 추가
+        adapter = new ReviewHistoryAdapter(dataList, this); //MyOrderPList 잠시 추가
         recyclerView.setAdapter(adapter);
 
     }

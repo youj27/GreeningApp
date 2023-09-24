@@ -64,7 +64,7 @@ public class ReviewWriteActivity extends AppCompatActivity {
     Button uploadBtn;
     RatingBar RatingBarEt;
     Uri imageUri=null;
-    Button cancelBtn;
+    ImageButton cancelBtn;
     EditText reviewEt;
 
     MyOrder product = null;
@@ -87,6 +87,7 @@ public class ReviewWriteActivity extends AppCompatActivity {
         databaseReference = FirebaseDatabase.getInstance().getReference("CurrentUser").child(firebaseUser.getUid()).child("MyOrder");
 
         uploadBtn = findViewById(R.id.writeUploadBtn);
+        //Button uploadBtn = findViewById(R.id.writeUploadBtn);
         uploadImage = findViewById(R.id.writeUploadImage);
         reviewEt = findViewById(R.id.writeReviewEt);
         cancelBtn = findViewById(R.id.writeCancelBtn);
@@ -149,13 +150,15 @@ public class ReviewWriteActivity extends AppCompatActivity {
             uploadImage.setImageURI(imageUri);
         }
 
+        Button uploadBtn = findViewById(R.id.writeUploadBtn);
         uploadBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String fn = reviewEt.getText().toString().trim();
-                String reviewImage = imageUri.toString();
+                //String reviewImage = imageUri.toString();
+                String reviewImage = (imageUri != null) ? imageUri.toString() : ""; // 이미지 URI가 null이 아닌지 확인
 
-                if (!(fn.isEmpty() && imageUri != null))   //이미지와 후기작성이 비어있지않으면 업로드 진행
+                if (!fn.isEmpty())  //후기작성 내용이 비어있지않으면 업로드 진행
                 {
                     float rating = RatingBarEt.getRating();
                     String reviewDate = mDate.getText().toString();
@@ -170,8 +173,6 @@ public class ReviewWriteActivity extends AppCompatActivity {
                     reviewwriteMap.put("pid", product.getProductId());
                     reviewwriteMap.put("pname", product.getProductName());
                     reviewwriteMap.put("pimg", product.getOrderImg());
-//                    reviewwriteMap.put("pname", pname); // 제품 이름을 저장합니다.
-//                    reviewwriteMap.put("pimg", pimg);
                     reviewwriteMap.put("username", product.getUserName());
                     reviewwriteMap.put("Review_image", reviewImage);
                     reviewwriteMap.put("Write_review", fn);

@@ -93,9 +93,9 @@ public class ReviewHistoryAdapter extends RecyclerView.Adapter<ReviewHistoryAdap
     DatabaseReference databaseReference;
     DatabaseReference databaseReference2;
 
-    public ReviewHistoryAdapter(ArrayList<ReviewData> reviewhistoryList, List<MyOrder> MyOrderPList, Context context) {
+    public ReviewHistoryAdapter(ArrayList<ReviewData> reviewhistoryList, Context context) {
         this.reviewhistoryList = reviewhistoryList;
-        this.MyOrderPList = MyOrderPList;
+        //this.MyOrderPList = MyOrderPList;   //잠시 주석
         this.context = context;
         database = FirebaseDatabase.getInstance();
         firebaseAuth = FirebaseAuth.getInstance();
@@ -113,7 +113,7 @@ public class ReviewHistoryAdapter extends RecyclerView.Adapter<ReviewHistoryAdap
     public void onBindViewHolder(@NonNull ReviewHistoryViewHolder holder, @SuppressLint("RecyclerView") int position) {
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
         databaseReference = database.getReference("Review");
-        databaseReference2 = FirebaseDatabase.getInstance().getReference("CurrentUser").child(firebaseUser.getUid()).child("MyOrder");
+        //databaseReference2 = FirebaseDatabase.getInstance().getReference("CurrentUser").child(firebaseUser.getUid()).child("MyOrder");   //잠시 주석
 
         MyOrder myOrder = MyOrderPList.get(position);
 
@@ -124,8 +124,8 @@ public class ReviewHistoryAdapter extends RecyclerView.Adapter<ReviewHistoryAdap
 //        holder.Pname.setText(reviewhistoryList.get(position).getProductName());
 //        Glide.with(holder.itemView).load(reviewhistoryList.get(position).getOrderImg()).into(holder.Pimg);
 
-        holder.Pname.setText(myOrder.getProductName()); // MyOrder에서 Pname 가져오기
-        Glide.with(holder.itemView).load(myOrder.getOrderImg()).into(holder.Pimg); // MyOrder에서 Pimg 가져오기
+        //holder.Pname.setText(myOrder.getProductName()); // MyOrder에서 Pname 가져오기     //잠시 주석
+        //Glide.with(holder.itemView).load(myOrder.getOrderImg()).into(holder.Pimg); // MyOrder에서 Pimg 가져오기
 
 //        // MyOrder 객체에서 주문 이미지와 제품 이름 가져오기
 //        String Pimg = reviewhistoryList.get(position).getOrderImg();
@@ -155,8 +155,8 @@ public class ReviewHistoryAdapter extends RecyclerView.Adapter<ReviewHistoryAdap
         private RatingBar recyclerRating;
         private TextView reviewdate;
 
-        private TextView Pname;
-        private ImageView Pimg;
+//        private TextView Pname;    //잠시 주석
+//        private ImageView Pimg;
 
         public ReviewHistoryViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -165,8 +165,8 @@ public class ReviewHistoryAdapter extends RecyclerView.Adapter<ReviewHistoryAdap
             this.recyclerEt = itemView.findViewById(R.id.reviewhistoryText);
             this.recyclerRating = itemView.findViewById(R.id.reviewhistoryRate);
             this.reviewdate = itemView.findViewById(R.id.reviewhistoryDate);
-            this.Pname = itemView.findViewById(R.id.reviewhistoryPn);
-            this.Pimg = itemView.findViewById(R.id.reviewhistoryPImg);
+//            this.Pname = itemView.findViewById(R.id.reviewhistoryPn);   //잠시 주석
+//            this.Pimg = itemView.findViewById(R.id.reviewhistoryPImg);
         }
     }
 }
