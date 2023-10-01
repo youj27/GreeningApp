@@ -4,7 +4,6 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -17,10 +16,10 @@ import com.bumptech.glide.Glide;
 import java.util.ArrayList;
 
 public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.MyViewHolder>{
-    private ArrayList<ReviewData> dataList;
+    private ArrayList<Review> dataList;
     private Context context;
 
-    public ReviewAdapter(ArrayList<ReviewData> dataList, Context context) {
+    public ReviewAdapter(ArrayList<Review> dataList, Context context) {
         this.dataList = dataList;
         this.context = context;
     }
@@ -28,17 +27,17 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.MyViewHold
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.fullreview_item, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.review_item, parent, false);
         MyViewHolder holder = new MyViewHolder(view);
         return holder;
     }
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        Glide.with(holder.itemView).load(dataList.get(position).getReview_image()).into(holder.recyclerImage);
-        holder.recyclerEt.setText(String.valueOf(dataList.get(position).getWrite_review()));
-        holder.reviewdate.setText(String.valueOf(dataList.get(position).getReview_date()));
-        holder.recyclerRatingbar.setRating(dataList.get(position).getRating());
+        Glide.with(holder.itemView).load(dataList.get(position).getRimage()).into(holder.recyclerImage);
+        holder.recyclerEt.setText(String.valueOf(dataList.get(position).getRcontent()));
+        holder.reviewdate.setText(String.valueOf(dataList.get(position).getRdatetime()));
+        holder.recyclerRatingbar.setRating(dataList.get(position).getRscore());
     }
 
     @Override

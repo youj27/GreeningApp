@@ -4,28 +4,19 @@ package com.example.greeningapp;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 
-import android.app.Activity;
-import android.content.ContentResolver;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -36,17 +27,14 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 
 public class ReviewWriteActivity extends AppCompatActivity {
 
@@ -57,22 +45,18 @@ public class ReviewWriteActivity extends AppCompatActivity {
 
     private FirebaseAuth firebaseAuth;
     private DatabaseReference databaseReference;
+    DatabaseReference databaseReference2; //잠시 추가 -> //MyOrder
 
     FirebaseStorage mStorage;
-
     ImageView uploadImage;
     Button uploadBtn;
     RatingBar RatingBarEt;
     Uri imageUri=null;
     ImageButton cancelBtn;
     EditText reviewEt;
-
     MyOrder product = null;
-
     TextView Pname;
     ImageView Pimg;
-
-
     TextView mDate;  //날짜
 
 
@@ -121,6 +105,28 @@ public class ReviewWriteActivity extends AppCompatActivity {
 
         }
 
+//        //MyOrder, Pname, Pimg 저장 test
+//        databaseReference2 = mDatabase.getReference("Review");
+//        databaseReference = FirebaseDatabase.getInstance().getReference("CurrentUser");
+//        firebaseAuth = FirebaseAuth.getInstance();
+//        mDatabase = FirebaseDatabase.getInstance();
+//        //FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+//        databaseReference2.child(firebaseUser.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                // 파이어베이스 데이터베이스의 데이터를 받아오는 곳
+//
+//
+//            }
+//
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//                // 디비를 가져오던 중 에러 발생 시
+//                Log.e("OrderActivity", String.valueOf(databaseError.toException())); // 에러문 출력
+//            }
+//        });
+
         cancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -163,10 +169,8 @@ public class ReviewWriteActivity extends AppCompatActivity {
                     float rating = RatingBarEt.getRating();
                     String reviewDate = mDate.getText().toString();
 
-                    //String pname = Pname.getText().toString();
-                    //String pimg = product.getOrderImg();
-//                    String pname = product.getProductName(); // 제품 이름을 product 객체에서 가져옵니다.
-//                    String pimg = product.getOrderImg();
+                    String Pname = product.getProductName(); // 제품 이름을 String으로 저장
+                    String Pimg = product.getOrderImg(); // 제품 이미지 URL을 String으로 저장
 
                     // Create a HashMap to store the review data
                     HashMap<String, Object> reviewwriteMap = new HashMap<>();
@@ -174,10 +178,10 @@ public class ReviewWriteActivity extends AppCompatActivity {
                     reviewwriteMap.put("pname", product.getProductName());
                     reviewwriteMap.put("pimg", product.getOrderImg());
                     reviewwriteMap.put("username", product.getUserName());
-                    reviewwriteMap.put("Review_image", reviewImage);
-                    reviewwriteMap.put("Write_review", fn);
-                    reviewwriteMap.put("Rating", rating);
-                    reviewwriteMap.put("Review_date", reviewDate);
+                    reviewwriteMap.put("rimage", reviewImage);
+                    reviewwriteMap.put("rcontent", fn);
+                    reviewwriteMap.put("rscore", rating);
+                    reviewwriteMap.put("rdatetime", reviewDate);
 
 //                    mRef.push().setValue(reviewwriteMap).addOnSuccessListener(aVoid -> {
 //                        product.setDoReview(true);
@@ -209,7 +213,7 @@ public class ReviewWriteActivity extends AppCompatActivity {
                     builder.setPositiveButton("홈 이동", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int id) {
-                            Intent intent = new Intent(ReviewWriteActivity.this, MainActivity.class);
+                            Intent intent = new Intent(ReviewWriteActivity.this, ReviewActivity.class);
                             startActivity(intent);
                         }
                     });

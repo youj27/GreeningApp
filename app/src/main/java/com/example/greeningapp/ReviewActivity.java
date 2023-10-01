@@ -6,11 +6,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -26,7 +23,7 @@ import java.util.ArrayList;
 public class ReviewActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
-    private ArrayList<ReviewData> dataList;
+    private ArrayList<Review> dataList;
     private ReviewAdapter adapter;
     private RecyclerView.LayoutManager layoutManager;
     private FirebaseDatabase database;
@@ -53,7 +50,7 @@ public class ReviewActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 dataList.clear(); //기준 배열리스트가 존재하지않게 초기화(데이터가 쌓이기때문)
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) { //반복문으로 데이터리스트 추출
-                    ReviewData review = snapshot.getValue(ReviewData.class);  //만들어뒀던 review객체에 데이터를 담는다( 리뷰작성시 )
+                    Review review = snapshot.getValue(Review.class);  //만들어뒀던 review객체에 데이터를 담는다( 리뷰작성시 )
                     dataList.add(review); //담은 데이터들을 배열리스트에 넣고 리사이클뷰로 보낼준비
                 }
                 adapter.notifyDataSetChanged();
