@@ -65,33 +65,6 @@
 //        database = FirebaseDatabase.getInstance(); //파이어베이스 연동
 //        databaseReference = database.getReference("Review");//db데이터연결
 //
-//        // Firebase Realtime Database 참조를 가져옵니다.
-//        // 잠시 주석 DatabaseReference myOrderReference = FirebaseDatabase.getInstance().getReference("MyOrder");
-//
-//        FirebaseDatabase database = FirebaseDatabase.getInstance();
-//        DatabaseReference myOrderReference = database.getReference("MyOrder");
-//
-//        myOrderReference.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                // 데이터를 가져오고 MyOrder 객체로 변환한 후 MyOrderPList에 추가합니다.
-//                MyOrderPList.clear(); // 기존 데이터를 모두 제거하고 새로운 데이터로 대체합니다.
-//                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-//                    MyOrder myOrder = snapshot.getValue(MyOrder.class);
-//                    MyOrderPList.add(myOrder);
-//                }
-//
-//                // 데이터가 변경될 때마다 RecyclerView를 업데이트합니다.
-//                adapter.notifyDataSetChanged();
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError databaseError) {
-//                // 오류 처리를 수행합니다.
-//                Log.e("ReviewHistoryActivity", "Firebase 데이터 가져오기 실패: " + databaseError.getMessage());
-//            }
-//        });
-//
 //        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
 //            //@SuppressLint("NotifyDataSetChanged")
 //            @Override
@@ -114,28 +87,6 @@
 //
 //    }
 //}
-
-
-
-//잠시
-//        database = FirebaseDatabase.getInstance();
-//        databaseReference = FirebaseDatabase.getInstance().getReference("CurrentUser");
-//
-//        firebaseAuth = FirebaseAuth.getInstance();
-//        //상품 리스트에서 상품 상세 페이지로 데이터 가져오기
-//        final Object object = getIntent().getSerializableExtra("product");
-//        if(object instanceof ReviewData){
-//            product = (ReviewData) object;
-//        }
-//
-//        Pimg = findViewById(R.id.reviewhistoryPImg);
-//        Pname = findViewById(R.id.reviewhistoryPn);
-//
-//        if (product != null) {
-//            Glide.with(getApplicationContext()).load(product.getOrderImg()).into(Pimg);
-//            Pname.setText(product.getProductName());
-//
-//        }
 
 
 //////////
@@ -164,13 +115,15 @@ import java.util.ArrayList;
 
 public class ReviewHistoryActivity extends AppCompatActivity {
 
-    //private FirebaseAuth firebaseAuth;
+    private FirebaseAuth firebaseAuth;
     private DatabaseReference databaseReference;
     FirebaseDatabase database;
     private RecyclerView recyclerView;
     private ArrayList<Review> reviewhistoryList;
     private ReviewHistoryAdapter adapter;
     private RecyclerView.LayoutManager layoutManager;
+
+    private DatabaseReference databaseReference2;
 
     private String username;
 
@@ -190,45 +143,69 @@ public class ReviewHistoryActivity extends AppCompatActivity {
         //firebaseAuth = FirebaseAuth.getInstance();
         databaseReference = database.getReference("Review"); // Firebase Realtime Database에서 "Review" 항목을 가져옵니다.
 
+        firebaseAuth = FirebaseAuth.getInstance();
+        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
 
-        Intent intent = getIntent();
-        if (intent != null && intent.hasExtra("username")) {
-            username = intent.getStringExtra("username");
-            Log.d("username",username +"가져왔음");
-        }
+        databaseReference2 = FirebaseDatabase.getInstance().getReference("User");
 
-        // Firebase 인증을 통해 로그인한 사용자 정보 가져오기
-//        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-//        FirebaseUser currentUser = firebaseAuth.getCurrentUser();
-//        if (currentUser != null) {
-//            username = currentUser.getDisplayName(); // 사용자의 username을 가져옵니다
-//        } else {
-//            // 사용자가 로그인하지 않은 경우 처리
-//        }
-
-
-        Query reviewhistoryQuery = databaseReference.orderByChild("username").equalTo(username);
-
-        reviewhistoryQuery.addListenerForSingleValueEvent(new ValueEventListener() {
-            @SuppressLint("NotifyDataSetChanged")
+        databaseReference2.child(firebaseUser.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                reviewhistoryList.clear();
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    Review review = snapshot.getValue(Review.class);
-                    reviewhistoryList.add(review);
-                    Log.d("username",review.getUsername() +"가져왔음");
+                User user = dataSnapshot.getValue(User.class);
+                if (user != null) {
+                    username = user.getUsername();
 
+                    Query reviewhistoryQuery = databaseReference.orderByChild("username").equalTo(username);
+                    reviewhistoryQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @SuppressLint("NotifyDataSetChanged")
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            reviewhistoryList.clear();
+                            for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                                Review review = snapshot.getValue(Review.class);
+                                reviewhistoryList.add(review);
+                                Log.d("usename", review.getUsername() + "가져왔음");
+                            }
+                            adapter.notifyDataSetChanged();
+                        }
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                            Log.e("ReviewHistoryActivity", String.valueOf(databaseError.toException()));
+                        }
+                    });
+                    adapter = new ReviewHistoryAdapter(reviewhistoryList, ReviewHistoryActivity.this);
+                    recyclerView.setAdapter(adapter);
                 }
-                adapter.notifyDataSetChanged();
             }
             @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.e("ReviewHistoryActivity", String.valueOf(databaseError.toException()));
+            public void onCancelled(@NonNull DatabaseError error) {
             }
         });
-        adapter = new ReviewHistoryAdapter(reviewhistoryList, this);
-        recyclerView.setAdapter(adapter);
 
     }
 }
+
+
+
+//        Query reviewhistoryQuery = databaseReference2.orderByChild("username").equalTo("uz");
+//
+//        reviewhistoryQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+//            @SuppressLint("NotifyDataSetChanged")
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                reviewhistoryList.clear();
+//                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+//                    Review review = snapshot.getValue(Review.class);
+//                    reviewhistoryList.add(review);
+//                    Log.d("usename",review.getUsername() +"가져왔음");
+//
+//                }
+//                adapter.notifyDataSetChanged();
+//            }
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//                Log.e("ReviewHistoryActivity", String.valueOf(databaseError.toException()));
+//            }
+//        });
+//        adapter = new ReviewHistoryAdapter(reviewhistoryList, this);
+//        recyclerView.setAdapter(adapter);
