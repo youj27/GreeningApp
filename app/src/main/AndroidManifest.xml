@@ -13,6 +13,48 @@
         android:theme="@style/Theme.GreeningApp"
         tools:targetApi="31">
         <activity
+            android:name=".WithdrawalActivity"
+            android:exported="false" />
+        <activity
+            android:name=".PointHistoryActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ChangeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".QuizActivity"
+            android:exported="false" />
+        <activity
+            android:name=".DoCertificateDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".DonationCertificateActivity"
+            android:exported="false" />
+        <activity
+            android:name=".DonationCompleteActivity"
+            android:exported="false" />
+        <activity
+            android:name=".DonationDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".DonationMainActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MyPageActivity"
+            android:exported="false" />
+        <activity
+            android:name=".SearchAdapter"
+            android:exported="false" />
+        <activity
+            android:name=".SearchActivity"
+            android:exported="false" />
+        <activity
+            android:name=".CategoryActivity"
+            android:exported="false" />
+        <activity
+            android:name=".AttendanceActivity"
+            android:exported="false" />
+        <activity
             android:name=".OrderHistoryChildActivity"
             android:exported="false" />
         <activity
