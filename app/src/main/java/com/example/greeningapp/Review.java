@@ -10,6 +10,8 @@ public class Review {
     private  String pimg;
     private String username;
 
+    private String productPrice;
+
     public Review() {
 
     }
@@ -80,4 +82,10 @@ public class Review {
         this.username = username;
     }
 
+    public String getProductPrice() {
+        return productPrice;
+    }
+    public void setProductPrice(String productPrice) {
+        this.productPrice = productPrice;
+    }
 }

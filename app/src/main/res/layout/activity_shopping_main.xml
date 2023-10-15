@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ShoppingMainActivity">
+    tools:context=".MainActivity">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -65,5 +66,6 @@
             android:background="@drawable/btn_bg_detailed"
             android:text="퀴즈" />
     </LinearLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

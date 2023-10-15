@@ -104,14 +104,14 @@ public class ShoppingMainActivity extends AppCompatActivity {
 
             }
         });
-//
-//        btnQuizMain = (Button) findViewById(R.id.btnQuizMain);
-//        btnQuizMain.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(ShoppingMainActivity.this, QuizActivity.class);
-//                startActivity(intent);
-//            }
-//        });
+
+        btnQuizMain = (Button) findViewById(R.id.btnQuizMain);
+        btnQuizMain.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ShoppingMainActivity.this, CategoryActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 }

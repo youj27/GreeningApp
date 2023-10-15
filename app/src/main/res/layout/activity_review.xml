@@ -137,6 +137,53 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </LinearLayout>
-
     </androidx.core.widget.NestedScrollView>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_centerInParent="true"
+        android:background="#27231919"/>
+
+    <LinearLayout
+        android:id="@+id/bottomNavigation"
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:layout_gravity="bottom"
+        android:orientation="horizontal"
+        android:background="@color/white">
+
+        <ImageButton
+            android:id="@+id/navMain_review"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:src="@drawable/home_logo_size"
+            android:background="@android:color/transparent"/>
+
+        <ImageButton
+            android:id="@+id/navCategory_review"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:src="@drawable/shopping_logo_size"
+            android:background="@android:color/transparent"/>
+
+        <ImageButton
+            android:id="@+id/navDonation_review"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:src="@drawable/donation_logo_size"
+            android:background="@android:color/transparent"/>
+
+        <ImageButton
+            android:id="@+id/navMypage_review"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:src="@drawable/user_logo_size"
+            android:background="@android:color/transparent"/>
+
+    </LinearLayout>
 </LinearLayout>

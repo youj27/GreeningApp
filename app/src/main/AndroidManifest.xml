@@ -107,4 +107,7 @@
             android:exported="false" />
     </application>
 
+<!--    잠시 권한 추가-->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
 </manifest>

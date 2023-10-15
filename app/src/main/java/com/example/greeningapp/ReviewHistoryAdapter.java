@@ -168,10 +168,18 @@ public class ReviewHistoryAdapter extends RecyclerView.Adapter<ReviewHistoryAdap
     public void onBindViewHolder(@NonNull ReviewHistoryViewHolder holder, @SuppressLint("RecyclerView") int position) {
         //databaseReference = database.getReference("Review");
         Glide.with(holder.itemView).load(reviewhistoryList.get(position).getRimage()).into(holder.recyclerImage);
-        holder.recyclerEt.setText(String.valueOf(reviewhistoryList.get(position).getRcontent()));
-        holder.recyclerRating.setRating(reviewhistoryList.get(position).getRscore());
-        holder.reviewdate.setText(String.valueOf(reviewhistoryList.get(position).getRdatetime()));
+//        String reviewImage = reviewhistoryList.get(position).getRimage();
+//        if (reviewImage != null && !reviewImage.isEmpty()) {
+//            Glide.with(context).load(reviewImage).into(holder.recyclerImage);
+//        } else {
+//            // 이미지가 없을 때 이미지 없음 아이콘 표시
+//            //holder.recyclerImage.setImageResource(R.drawable.no_image); // 이미지 없음 아이콘 등록
+//        }
 
+        holder.recyclerEt.setText(String.valueOf(reviewhistoryList.get(position).getRcontent()));
+        //holder.recyclerRating.setRating(reviewhistoryList.get(position).getRscore());
+        holder.reviewdate.setText(String.valueOf(reviewhistoryList.get(position).getRdatetime()));
+        holder.ProductPrice.setText(String.valueOf(reviewhistoryList.get(position).getProductPrice()));
         holder.ProductName.setText(String.valueOf(reviewhistoryList.get(position).getPname()));
         Glide.with(holder.itemView).load(reviewhistoryList.get(position).getPimg()).into(holder.ProductImg);
 
@@ -182,18 +190,20 @@ public class ReviewHistoryAdapter extends RecyclerView.Adapter<ReviewHistoryAdap
         if (reviewhistoryList != null) {
             return reviewhistoryList.size();
         }
-        //return reviewhistoryList.size();
+        //return (dataList!=null ? reviewhistoryList.size() :0);
         return 0;
     }
 
     public class ReviewHistoryViewHolder extends RecyclerView.ViewHolder {
         private ImageView recyclerImage;
         private TextView recyclerEt;
-        private RatingBar recyclerRating;
+        //private RatingBar recyclerRating;
         private TextView reviewdate;
 
         private TextView ProductName;
         private ImageView ProductImg;
+
+        private TextView ProductPrice; //추가
 
         //private String username;
 
@@ -202,9 +212,9 @@ public class ReviewHistoryAdapter extends RecyclerView.Adapter<ReviewHistoryAdap
             super(itemView);
             this.recyclerImage = itemView.findViewById(R.id.reviewhistoryPhoto);
             this.recyclerEt = itemView.findViewById(R.id.reviewhistoryText);
-            this.recyclerRating = itemView.findViewById(R.id.reviewhistoryRate);
+            //this.recyclerRating = itemView.findViewById(R.id.reviewhistoryRate);
             this.reviewdate = itemView.findViewById(R.id.reviewhistoryDate);
-
+            this.ProductPrice = itemView.findViewById(R.id.reviewhistoryprice);
             this.ProductName = itemView.findViewById(R.id.reviewhistoryPn);
             this.ProductImg = itemView.findViewById(R.id.reviewhistoryPImg);
 

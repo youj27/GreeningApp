@@ -6,13 +6,15 @@
 <!--    <color name="toolbar">#F5F5F5</color>-->
 <!--    <color name="main_color">#B4D9A9</color>-->
 <!--    <color name="mainColor">#94B58B</color>-->
-
+<!--    <color name="gray">#A0A0A0</color>-->
 
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="toolbar">#FFFFFF</color>
     <color name="mainColor">#205107</color>
-    <color name="textColorGray">#919191</color>
+    <color name="textColorGray">#A0A0A0</color>
+    <color name="textGray">#808080</color>
+    <color name="gray">#DDDDDD</color>
 
 
     <color name="subColor">#377028</color>
@@ -32,5 +34,6 @@
     <color name="sub2">#94B58B</color>
     <color name="sub4">#C6EDC2</color>
     <color name="sub5">#EBF7F0</color>
+
 
 </resources>

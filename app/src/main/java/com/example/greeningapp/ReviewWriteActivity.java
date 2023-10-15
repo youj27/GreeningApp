@@ -2,6 +2,7 @@ package com.example.greeningapp;
 
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -10,6 +11,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,10 +19,12 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import androidx.appcompat.widget.Toolbar;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -29,7 +33,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
-
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -47,17 +50,23 @@ public class ReviewWriteActivity extends AppCompatActivity {
     private DatabaseReference databaseReference;
     //DatabaseReference databaseReference2; //잠시 추가 -> //MyOrder
 
+    private BottomNavigationView bottomNavigationView;
+
+    private ImageButton navMain, navCategory, navDonation, navMypage;
+
     FirebaseStorage mStorage;
     ImageView uploadImage;
     Button uploadBtn;
     RatingBar RatingBarEt;
     Uri imageUri=null;
-    ImageButton cancelBtn;
+    //ImageButton cancelBtn;
     EditText reviewEt;
     MyOrder product = null;
     TextView Pname;
     ImageView Pimg;
     TextView mDate;  //날짜
+
+    Toolbar rtoolbar;
 
 
 
@@ -65,6 +74,16 @@ public class ReviewWriteActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_review_write);
+
+
+
+        rtoolbar = findViewById(R.id.toolbar_reviewwrite);
+        setSupportActionBar(rtoolbar);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayShowCustomEnabled(true); //커스터마이징 하기 위해 필요
+        actionBar.setDisplayShowTitleEnabled(false);//기본 제목 삭제.
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setHomeAsUpIndicator(R.drawable.baseline_arrow_back_24);
 
         firebaseAuth = FirebaseAuth.getInstance();
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
@@ -74,7 +93,7 @@ public class ReviewWriteActivity extends AppCompatActivity {
         //Button uploadBtn = findViewById(R.id.writeUploadBtn);
         uploadImage = findViewById(R.id.writeUploadImage);
         reviewEt = findViewById(R.id.writeReviewEt);
-        cancelBtn = findViewById(R.id.writeCancelBtn);
+        //cancelBtn = findViewById(R.id.writeCancelBtn);
         RatingBarEt = findViewById(R.id.writeRatingBar);
 
         mDatabase=FirebaseDatabase.getInstance();
@@ -105,25 +124,17 @@ public class ReviewWriteActivity extends AppCompatActivity {
 
         }
 
-        cancelBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(ReviewWriteActivity.this, ReviewActivity.class);
-                startActivity(intent);
-            }
-        });
-
-
         uploadImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(Intent.ACTION_GET_CONTENT);
-                intent.setType("image/");
+                intent.setType("image/*");
                 startActivityForResult(intent,Gallery_Code);
             }
         });
 
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @NonNull Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -139,10 +150,11 @@ public class ReviewWriteActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String fn = reviewEt.getText().toString().trim();
-                String reviewImage = imageUri.toString();
-                //String reviewImage = (imageUri != null) ? imageUri.toString() : ""; // 이미지 URI가 null이 아닌지 확인
+                //String reviewImage = imageUri.toString();
+                String reviewImage = (imageUri != null) ? imageUri.toString() : ""; // 이미지 URI가 null이 아닌지 확인
+                //String reviewImage = (imageUri != null) ? imageUri.toString() : null; // 이미지 URI가 null인지 확인하고 null인 경우 null로 처리
 
-                if (!fn.isEmpty())  //후기작성 내용이 비어있지않으면 업로드 진행
+                if (!fn.isEmpty())  //후기작성 내용이 비어있지않으면 업로드 진행,  주석: if (!fn.isEmpty() || reviewImage == null || reviewImage != null)
                 {
                     float rating = RatingBarEt.getRating();
                     String reviewDate = mDate.getText().toString();
@@ -156,10 +168,13 @@ public class ReviewWriteActivity extends AppCompatActivity {
                     reviewwriteMap.put("pname", product.getProductName());
                     reviewwriteMap.put("pimg", product.getOrderImg());
                     reviewwriteMap.put("username", product.getUserName());
+                    reviewwriteMap.put("pprice", product.getProductPrice());
                     reviewwriteMap.put("rimage", reviewImage);
                     reviewwriteMap.put("rcontent", fn);
                     reviewwriteMap.put("rscore", rating);
                     reviewwriteMap.put("rdatetime", reviewDate);
+
+
 
                     Log.d("Review", "리뷰 작성 여부 " +  product.getDoReview());
 
@@ -202,13 +217,55 @@ public class ReviewWriteActivity extends AppCompatActivity {
                     AlertDialog alertDialog = builder.create();
                     alertDialog.show();
 
+
                 }else {
-                    //showErrorDialog("후기 내용을 입력하세요.");
+                    // 리뷰 내용 또는 이미지가 비어 있는 경우에 대한 처리
 
                 }
+
             }
 
         });
+
+        // 하단바 구현
+        bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigation_ReviewWrite);
+        // 초기 선택 항목 설정
+        bottomNavigationView.setSelectedItemId(R.id.tab_mypage);
+
+        // BottomNavigationView의 아이템 클릭 리스너 설정
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                if (item.getItemId() == R.id.tab_home) {
+                    // Home 액티비티로 이동
+                    startActivity(new Intent(ReviewWriteActivity.this, MainActivity.class));
+                    return true;
+                } else if (item.getItemId() == R.id.tab_shopping) {
+                    // Category 액티비티로 이동
+                    startActivity(new Intent(ReviewWriteActivity.this, CategoryActivity.class));
+                    return true;
+                } else if (item.getItemId() == R.id.tab_donation) {
+                    // Donation 액티비티로 이동
+                    startActivity(new Intent(ReviewWriteActivity.this, DonationMainActivity.class));
+                    return true;
+                } else if (item.getItemId() == R.id.tab_mypage) {
+                    // My Page 액티비티로 이동
+                    startActivity(new Intent(ReviewWriteActivity.this, MyPageActivity.class));
+                    return true;
+                }
+                return false;
+            }
+        });
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int itemId = item.getItemId();
+        if (itemId == android.R.id.home) { //뒤로가기
+            onBackPressed();
+            return true;
+        } else {
+            return super.onOptionsItemSelected(item);
+        }
     }
 }
 
