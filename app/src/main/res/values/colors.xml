@@ -14,7 +14,8 @@
     <color name="mainColor">#205107</color>
     <color name="textColorGray">#A0A0A0</color>
     <color name="textGray">#808080</color>
-    <color name="gray">#DDDDDD</color>
+    <color name="gray">#DADADA</color>
+    <color name="ordh_btn_click">#BBBBBB</color>
 
 
     <color name="subColor">#377028</color>

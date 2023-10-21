@@ -6,6 +6,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
@@ -23,6 +24,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -48,6 +50,9 @@ public class ReviewWriteActivity extends AppCompatActivity {
 
     private FirebaseAuth firebaseAuth;
     private DatabaseReference databaseReference;
+
+    private DatabaseReference databaseReference2;
+    private DatabaseReference databaseReference3;
     //DatabaseReference databaseReference2; //잠시 추가 -> //MyOrder
 
     private BottomNavigationView bottomNavigationView;
@@ -63,8 +68,14 @@ public class ReviewWriteActivity extends AppCompatActivity {
     EditText reviewEt;
     MyOrder product = null;
     TextView Pname;
+    //TextView Pprice;
     ImageView Pimg;
     TextView mDate;  //날짜
+
+    Dialog Reviewdialog;
+
+    private String orderId,myOrderId, eachOrderedId;
+    private int userSPoint;
 
     Toolbar rtoolbar;
 
@@ -169,21 +180,44 @@ public class ReviewWriteActivity extends AppCompatActivity {
                     reviewwriteMap.put("pimg", product.getOrderImg());
                     reviewwriteMap.put("username", product.getUserName());
                     reviewwriteMap.put("pprice", product.getProductPrice());
+                    reviewwriteMap.put("totalquantity", product.getTotalQuantity());
                     reviewwriteMap.put("rimage", reviewImage);
                     reviewwriteMap.put("rcontent", fn);
                     reviewwriteMap.put("rscore", rating);
                     reviewwriteMap.put("rdatetime", reviewDate);
 
+                    Log.d("Review", "리뷰 작성 여부 " + product.getDoReview());
+
+//                    int pidInt = product.getProductId(); // 정수 값을 가져온후
+//                    String pid = String.valueOf(pidInt);  //문자열로 변환하여 저장
 
 
-                    Log.d("Review", "리뷰 작성 여부 " +  product.getDoReview());
+//                    mRef.push().setValue(reviewwriteMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+//                        @Override
+//                        public void onComplete(@NonNull Task<Void> task) {
+//                            if (task.isSuccessful()) {
+//                                // Firebase 데이터 쓰기가 성공한 경우
+//                                product.setDoReview("Yes");
+//
+//                            } else {
+//                                // Firebase 데이터 쓰기가 실패한 경우
+//                                Log.e("Firebase", "Data write failed: " + task.getException().getMessage());
+//                            }
+//                        }
+//                    });
 
+                    //mRef.push().child(pid).setValue(reviewwriteMap).addOnCompleteListener
                     mRef.push().setValue(reviewwriteMap).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             if (task.isSuccessful()) {
-                                // Firebase 데이터 쓰기가 성공한 경우
-                                product.setDoReview("Yes");
+                                databaseReference.child(product.getOrderId()).child(product.getEachOrderedId()).child("doReview").setValue("Yes").addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        Log.d("Myreview", "myOrderId: " + myOrderId);
+                                        Log.d("eachorderid", "eachOrderedId: " + eachOrderedId);
+                                    }
+                                });
 
                             } else {
                                 // Firebase 데이터 쓰기가 실패한 경우
@@ -193,6 +227,7 @@ public class ReviewWriteActivity extends AppCompatActivity {
                     });
 
 
+                    //AlertDialog
                     AlertDialog.Builder builder = new AlertDialog.Builder(ReviewWriteActivity.this);
 
                     builder.setTitle("작성 완료").setMessage("감사합니다!");
@@ -222,6 +257,24 @@ public class ReviewWriteActivity extends AppCompatActivity {
                     // 리뷰 내용 또는 이미지가 비어 있는 경우에 대한 처리
 
                 }
+
+//                public void showReviewdialog() {
+//                    Reviewdialog.show();
+//
+//                    Reviewdialog.show();
+//
+//                    TextView confirmTextView = Reviewdialog.findViewById(R.id.confirmTextView);
+//                    confirmTextView.setText("작성이 완료되었습니다.");
+//
+//                    Button btnOk = Reviewdialog.findViewById(R.id.btn_ok);
+//                    btnOk.setText("주문내역으로 돌아가기");
+//                    btnOk.setOnClickListener(new View.OnClickListener() {
+//                        @Override
+//                        public void onClick(View v) {
+//                            Reviewdialog.dismiss();
+//                        }
+//                    });
+//                }
 
             }
 

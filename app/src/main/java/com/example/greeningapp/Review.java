@@ -8,15 +8,18 @@ public class Review {
     private String pname;
     private int pid;
     private  String pimg;
+    private String rdatetime;
     private String username;
 
-    private String productPrice;
+    private String pprice;
+
+    private int totalquantity;
 
     public Review() {
 
     }
 
-    private String rdatetime;
+
 
     public String getRimage() {
         return rimage;
@@ -82,10 +85,14 @@ public class Review {
         this.username = username;
     }
 
-    public String getProductPrice() {
-        return productPrice;
+    public String getPprice() { return pprice; }
+    public void setPprice(String pprice) { this.pprice = pprice; }
+
+    public int getTotalquantity() {
+        return totalquantity;
     }
-    public void setProductPrice(String productPrice) {
-        this.productPrice = productPrice;
+
+    public void setTotalquantity(int totalquantity) {
+        this.totalquantity = totalquantity;
     }
 }

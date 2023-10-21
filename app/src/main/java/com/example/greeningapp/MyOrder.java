@@ -3,36 +3,30 @@ package com.example.greeningapp;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class MyOrder implements Serializable {
+public class MyOrder  implements Serializable {
     private String address;
     private String orderId;
+    private String eachOrderedId;
     private int overTotalPrice;
     private String phone;
     private int productId;
     private String productName;
     private String productPrice;
     private int totalPrice;
-    private String totalQuantity;
+    private int totalQuantity;
     private String userName;
     private String orderDate;
+    private String doReview;
 
     private  String orderImg;
     private  String dataId;
 
-    private String doReview;
+    private String postcode;
 
     private ArrayList<MyOrder> childModelArrayList;
 
     public MyOrder() {
 
-    }
-
-    public String getDoReview() {
-        return doReview;
-    }
-
-    public void setDoReview(String doReview) {
-        this.doReview = doReview;
     }
 
     public String getAddress() {
@@ -50,6 +44,23 @@ public class MyOrder implements Serializable {
     public void setOrderId(String orderId) {
         this.orderId = orderId;
     }
+
+    public String getEachOrderedId() {
+        return eachOrderedId;
+    }
+
+    public void setEachOrderedId(String eachOrderedId) {
+        this.eachOrderedId = eachOrderedId;
+    }
+
+    public String getPostcode() {
+        return postcode;
+    }
+
+    public void setPostcode(String postcode) {
+        this.postcode = postcode;
+    }
+
 
     public int getOverTotalPrice() {
         return overTotalPrice;
@@ -83,7 +94,9 @@ public class MyOrder implements Serializable {
         this.productName = productName;
     }
 
-    public String getProductPrice() { return productPrice; }
+    public String getProductPrice() {
+        return productPrice;
+    }
 
     public void setProductPrice(String productPrice) {
         this.productPrice = productPrice;
@@ -97,11 +110,11 @@ public class MyOrder implements Serializable {
         this.totalPrice = totalPrice;
     }
 
-    public String getTotalQuantity() {
+    public int getTotalQuantity() {
         return totalQuantity;
     }
 
-    public void setTotalQuantity(String totalQuantity) {
+    public void setTotalQuantity(int totalQuantity) {
         this.totalQuantity = totalQuantity;
     }
 
@@ -135,6 +148,14 @@ public class MyOrder implements Serializable {
 
     public void setDataId(String dataId) {
         this.dataId = dataId;
+    }
+
+    public String getDoReview() {
+        return doReview;
+    }
+
+    public void setDoReview(String doReview) {
+        this.doReview = doReview;
     }
 
     public ArrayList<MyOrder> getChildModelArrayList() {
