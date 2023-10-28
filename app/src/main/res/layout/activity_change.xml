@@ -1,0 +1,181 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="top"
+    android:orientation="vertical"
+    tools:context=".ChangeActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="66dp"
+        android:orientation="horizontal" >
+
+        <ImageButton
+            android:id="@+id/back_ic"
+            android:background="@drawable/baseline_arrow_back_24"
+            android:contentDescription="뒤로가기"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_margin="16dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:scaleType="centerInside"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="18dp"
+            android:layout_marginRight="72dp"
+            android:gravity="center"
+            android:text="회원 정보 수정"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            />
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:gravity="center"
+                android:orientation="vertical"
+                >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="viewStart"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:text="이름" />
+
+                <EditText
+                    android:id="@+id/et_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="15dp"
+                    android:inputType="textPersonName" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="viewStart"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:text="전화번호"
+                    />
+
+                <EditText
+                    android:id="@+id/et_phone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="phone"
+                    android:layout_marginBottom="15dp"
+                    android:focusableInTouchMode="false"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="viewStart"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:text="이메일" />
+
+                <EditText
+                    android:id="@+id/et_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textEmailAddress"
+                    android:layout_marginBottom="15dp"
+                    android:focusableInTouchMode="false"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="viewStart"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:text="우편번호" />
+
+                <EditText
+                    android:id="@+id/et_postcode"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPostalAddress"
+                    android:layout_marginBottom="15dp"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="viewStart"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:text="주소" />
+
+                <EditText
+                    android:id="@+id/et_address"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text"
+                    android:layout_marginBottom="15dp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="16dp"
+                        android:text="비밀번호 재설정은 여기를 클릭하세요"
+                        android:textAlignment="viewStart"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btnPassword"
+                        android:layout_width="150dp"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/round_box"
+                        android:onClick="setUpdatePasswordBtn"
+                        android:text="비밀번호 재설정"
+                        android:textColor="#000000"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="bottom"
+        android:orientation="horizontal">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/save_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:textColor="@color/white"
+            android:background="@drawable/custom_btn"
+            android:text="저장하기" />
+
+
+    </LinearLayout>
+</LinearLayout>

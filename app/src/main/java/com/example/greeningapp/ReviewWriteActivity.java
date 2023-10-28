@@ -165,7 +165,7 @@ public class ReviewWriteActivity extends AppCompatActivity {
                 String reviewImage = (imageUri != null) ? imageUri.toString() : ""; // 이미지 URI가 null이 아닌지 확인
                 //String reviewImage = (imageUri != null) ? imageUri.toString() : null; // 이미지 URI가 null인지 확인하고 null인 경우 null로 처리
 
-                if (!fn.isEmpty())  //후기작성 내용이 비어있지않으면 업로드 진행,  주석: if (!fn.isEmpty() || reviewImage == null || reviewImage != null)
+                if (!fn.isEmpty() && reviewImage != null)  //후기작성 내용이 비어있지않으면 업로드 진행,  주석: if (!fn.isEmpty() || reviewImage == null || reviewImage != null)
                 {
                     float rating = RatingBarEt.getRating();
                     String reviewDate = mDate.getText().toString();

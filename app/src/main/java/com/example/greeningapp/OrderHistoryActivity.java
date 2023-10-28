@@ -69,7 +69,7 @@ public class OrderHistoryActivity extends AppCompatActivity {
                     }
                 }
 
-                ParentAdapter = new OrderHistoryParentActivity(parentModelArrayList, OrderHistoryActivity.this);
+                ParentAdapter = new OrderHistoryParentRcyAdapter(parentModelArrayList, OrderHistoryActivity.this);
                 parentRecyclerView.setAdapter(ParentAdapter);
             }
 

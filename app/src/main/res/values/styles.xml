@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="BottomNavigationViewNoRipple" parent="Widget.MaterialComponents.BottomNavigationView">
+        <item name="android:itemBackground">@android:color/transparent</item>
+        <item name="android:colorControlHighlight">@android:color/transparent</item>
+    </style>
+
+    <style name="CustomRadioButton" parent="Theme.AppCompat.Light">
+        <item name="colorAccent">@color/mainColor</item>
+        <item name="colorControlNormal">@color/textColorGray</item>
+    </style>
+</resources>

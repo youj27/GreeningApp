@@ -181,7 +181,7 @@ public class ReviewHistoryAdapter extends RecyclerView.Adapter<ReviewHistoryAdap
         holder.reviewdate.setText(String.valueOf(reviewhistoryList.get(position).getRdatetime()));
         holder.ProductPrice.setText(String.valueOf(reviewhistoryList.get(position).getPprice()) + "원");
         holder.ProductName.setText(String.valueOf(reviewhistoryList.get(position).getPname()));
-        holder.TotalQ.setText(String.valueOf(reviewhistoryList.get(position).getTotalquantity()));
+        holder.TotalQ.setText(String.valueOf(reviewhistoryList.get(position).getTotalquantity()) + "개");
         Glide.with(holder.itemView).load(reviewhistoryList.get(position).getPimg()).into(holder.ProductImg);
 
     }
