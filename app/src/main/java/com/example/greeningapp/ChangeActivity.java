@@ -1,18 +1,23 @@
 package com.example.greeningapp;
 
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
@@ -29,38 +34,54 @@ public class ChangeActivity extends AppCompatActivity {
     private DatabaseReference mDatabaseRef; // 실시간 데이터베이스
     private EditText mEtName, mEtPostcode, mEtAddress, mEtEmail, mEtPhone;
     private Button mBtnSave;
-    private ImageButton backButton;
+    Toolbar toolbar;
+    Dialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_change);
 
-        // 액션바 숨기기
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.hide();
-        }
+        actionBar.setDisplayShowTitleEnabled(false);//기본 제목 삭제.
+        actionBar.setDisplayHomeAsUpEnabled(true);
 
-        backButton = findViewById(R.id.back_ic);
+        dialog = new Dialog(ChangeActivity.this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.customdialog);
 
         Button resetPwButton = findViewById(R.id.btnPassword);
         resetPwButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                setUpdatePasswordBtn();
+                dialog.show();
+
+                TextView confirmTextView = dialog.findViewById(R.id.say);
+                confirmTextView.setText("비밀번호 재설정 이메일을 전송하시겠습니까?");
+
+                Button btnno = dialog.findViewById(R.id.btnNo);
+                Button btnok = dialog.findViewById(R.id.btnOk);
+                btnno.setText("아니요");
+                btnok.setText("예");
+                btnok.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        sendEmailForPasswordUpdate();
+                        dialog.dismiss();
+                    }
+                });
+
+                btnno.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
             }
         });
 
-
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                finish();
-            }
-        });
-        //뒤로가기
 
         mFirebaseAuth = FirebaseAuth.getInstance();
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("User");
@@ -102,6 +123,7 @@ public class ChangeActivity extends AppCompatActivity {
             });
         }
 
+
         // 저장 버튼 클릭 이벤트 처리
         mBtnSave.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -141,29 +163,7 @@ public class ChangeActivity extends AppCompatActivity {
             builder.show();
         }
     }
-    private void setUpdatePasswordBtn() {
 
-        // 팝업 다이얼로그
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("비밀번호 재설정");
-        builder.setMessage("비밀번호 재설정 이메일을 보내시겠습니까?");
-
-        builder.setPositiveButton("예", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                sendEmailForPasswordUpdate();
-            }
-        });
-
-        builder.setNegativeButton("아니오", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                // 아무 작업도 수행하지 않음
-            }
-        });
-
-        builder.show();
-    }
 
 
     // 비밀번호 재설정 이메일 보내기
@@ -194,6 +194,16 @@ public class ChangeActivity extends AppCompatActivity {
         } else {
             // 사용자가 로그인하지 않음
             return null;
+        }
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int itemId = item.getItemId();
+        if (itemId == android.R.id.home) { //뒤로가기
+            onBackPressed();
+            return true;
+        } else {
+            return super.onOptionsItemSelected(item);
         }
     }
 }

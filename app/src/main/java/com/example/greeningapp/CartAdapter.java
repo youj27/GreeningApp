@@ -22,6 +22,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder> {
@@ -33,6 +34,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
     FirebaseDatabase firebaseDatabase;
     FirebaseAuth firebaseAuth;
     DatabaseReference databaseReference;
+
+    DecimalFormat decimalFormat = new DecimalFormat("###,###");
 
     int totalPrice = 0;
 
@@ -60,9 +63,9 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
                 .load(cartList.get(position).getProductImg())
                 .into(holder.productImg);
         holder.name.setText(cartList.get(position).getProductName());
-        holder.price.setText(cartList.get(position).getProductPrice());
-        holder.quantity.setText(cartList.get(position).getTotalQuantity());
-        holder.totalPrice.setText(String.valueOf(cartList.get(position).getTotalPrice()));
+        holder.price.setText(decimalFormat.format(Integer.parseInt(cartList.get(position).getProductPrice())) + "원");
+        holder.quantity.setText(decimalFormat.format(cartList.get(position).getSelectedQuantity()) +"개");
+        holder.totalPrice.setText(String.valueOf(decimalFormat.format(cartList.get(position).getTotalPrice())) + "원");
 
         holder.deleteItem.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -76,10 +79,15 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
                                 if (task.isSuccessful()) {
                                     cartList.remove(cartList.get(position));
                                     notifyDataSetChanged();
-                                    ((CartActivity) context).recreate();
-                                    Toast.makeText(context, "item Delete", Toast.LENGTH_SHORT).show();
+                                    Intent intent = ((CartActivity)context).getIntent();
+                                    ((CartActivity)context).finish(); //현재 액티비티 종료 실시
+                                    ((CartActivity)context).overridePendingTransition(0, 0); //효과 없애기
+                                    ((CartActivity)context).startActivity(intent); //현재 액티비티 재실행 실시
+                                    ((CartActivity)context).overridePendingTransition(0, 0); //효과 없애기
+//                                    ((CartActivity) context).recreate();
+//                                    Toast.makeText(context, "item Delete", Toast.LENGTH_SHORT).show();
                                 } else {
-                                    Toast.makeText(context, "Error" + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+//                                    Toast.makeText(context, "Error" + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                                 }
                             }
                         });

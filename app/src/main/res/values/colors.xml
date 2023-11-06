@@ -36,5 +36,7 @@
     <color name="sub4">#C6EDC2</color>
     <color name="sub5">#EBF7F0</color>
 
+    <color name="textgray">#404040</color>
+
 
 </resources>

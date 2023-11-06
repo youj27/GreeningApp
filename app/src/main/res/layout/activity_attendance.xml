@@ -5,49 +5,46 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
+    android:background="@color/white"
     tools:context=".AttendanceActivity">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayout"
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar_attendance"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginStart="1dp"
+        android:layout_marginLeft="1dp"
+        android:background="@color/toolbar"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:minHeight="?attr/actionBarSize"
-            android:theme="?attr/actionBarTheme"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            android:layout_gravity="center"
+            android:textSize="18sp"
+            android:text="출석체크"
+            android:textColor="@color/black" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="출석체크"
-                android:textSize="20sp"
-                android:layout_gravity="center" />
-        </androidx.appcompat.widget.Toolbar>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.appcompat.widget.Toolbar>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout3"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#EFEFEF">
+        android:background="@color/back">
 
         <TextView
             android:id="@+id/tv_attend"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="매일 출첵하고\n씨드 적립 받으세요!"
-            android:textSize="24sp"
+            android:textSize="18sp"
             android:textStyle="bold"
             android:textColor="@color/black"
-            android:layout_marginTop="16dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
@@ -57,9 +54,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/custom_calendar"
-            android:layout_marginTop="16dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_attend">
@@ -77,39 +74,27 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:theme="@style/CalendarViewTheme"
+                    android:dateTextAppearance="@style/dateTextAppearance"
+                    android:weekDayTextAppearance="@style/CalendarWeekDatText"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
             </FrameLayout>
 
-            <TextView
-                android:id="@+id/tv_attendance_completed"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="해당 날짜는\n 출석체크가 완료되었습니다 :)"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:textColor="#2F5E29"
-                android:visibility="invisible"
-                android:gravity="center"
-                android:layout_gravity="center"
-                app:layout_constraintTop_toTopOf="@+id/calendarContainer"
-                app:layout_constraintStart_toStartOf="@+id/calendarContainer"
-                app:layout_constraintEnd_toEndOf="@+id/calendarContainer"
-                app:layout_constraintBottom_toBottomOf="@+id/calendarContainer"/>
-
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_attendcheck"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="출석체크 하기"
-                android:textSize="16sp"
+                android:textSize="14sp"
                 android:textStyle="bold"
                 android:textColor="@color/white"
+                android:stateListAnimator="@null"
                 android:background="@drawable/custom_btn"
-                android:layout_marginLeft="24dp"
-                android:layout_marginRight="24dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/calendarContainer" />
@@ -119,13 +104,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="홈으로 이동하기"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                android:background="@drawable/custom_btn_register"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="24dp"
-                android:layout_marginLeft="24dp"
-                android:layout_marginRight="24dp"
+                android:textSize="14sp"
+                android:textStyle="normal"
+                android:textColor="@color/black"
+                android:stateListAnimator="@null"
+                android:background="@drawable/custom_btn_white"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
                 app:layout_constraintEnd_toEndOf="@+id/btn_attendcheck"
                 app:layout_constraintStart_toStartOf="@+id/btn_attendcheck"
                 app:layout_constraintTop_toBottomOf="@+id/btn_attendcheck"

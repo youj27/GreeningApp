@@ -117,6 +117,7 @@ import com.google.firebase.database.ValueEventListener;
 import androidx.appcompat.widget.Toolbar;
 
 import java.util.ArrayList;
+import java.text.DecimalFormat;
 
 public class ReviewHistoryActivity extends AppCompatActivity {
 
@@ -137,6 +138,8 @@ public class ReviewHistoryActivity extends AppCompatActivity {
 
     private ImageButton navMain, navCategory, navDonation, navMypage;
     Toolbar toolbar;
+    DecimalFormat decimalFormat = new DecimalFormat("###,###");
+
 
 
     @Override

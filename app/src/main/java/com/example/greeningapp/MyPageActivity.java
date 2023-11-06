@@ -1,11 +1,12 @@
 package com.example.greeningapp;
 
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -17,6 +18,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -31,7 +33,8 @@ public class MyPageActivity extends AppCompatActivity implements View.OnClickLis
     private FirebaseAuth mFirebaseAuth; // 파이어베이스 인증 처리
     private DatabaseReference mDatabaseRef;
     Toolbar toolbar;
-
+    Dialog dialog;
+    private BottomNavigationView bottomNavigationView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,15 +43,48 @@ public class MyPageActivity extends AppCompatActivity implements View.OnClickLis
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        actionBar.setDisplayShowTitleEnabled(false);//기본 제목 삭제.
         actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setHomeAsUpIndicator(R.drawable.baseline_arrow_back_24);
+
+        dialog = new Dialog(MyPageActivity.this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.customdialog);
 
         mFirebaseAuth = FirebaseAuth.getInstance();
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("User");
 
         Tv_my_name = findViewById(R.id.my_name);
         myPageSeed = (TextView) findViewById(R.id.myPageSeed);
+
+        // 하단바 구현
+        bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigation);
+        // 초기 선택 항목 설정
+        bottomNavigationView.setSelectedItemId(R.id.tab_mypage);
+
+        // BottomNavigationView의 아이템 클릭 리스너 설정
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                if (item.getItemId() == R.id.tab_home) {
+                    // Home 액티비티로 이동
+                    startActivity(new Intent(MyPageActivity.this, MainActivity.class));
+                    return true;
+                } else if (item.getItemId() == R.id.tab_shopping) {
+                    // Category 액티비티로 이동
+                    startActivity(new Intent(MyPageActivity.this, CategoryActivity.class));
+                    return true;
+                } else if (item.getItemId() == R.id.tab_donation) {
+                    // Donation 액티비티로 이동
+                    startActivity(new Intent(MyPageActivity.this, DonationMainActivity.class));
+                    return true;
+                } else if (item.getItemId() == R.id.tab_mypage) {
+                    // My Page 액티비티로 이동
+                    startActivity(new Intent(MyPageActivity.this, MyPageActivity.class));
+                    return true;
+                }
+                return false;
+            }
+        });
 
         // 사용자 정보 가져오기, 이름 표시
         FirebaseUser user = mFirebaseAuth.getCurrentUser();
@@ -59,28 +95,22 @@ public class MyPageActivity extends AppCompatActivity implements View.OnClickLis
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     if (dataSnapshot.exists()) {
-                        String name = dataSnapshot.child("username").getValue(String.class) + "님"; // "님"을 추가하여 표시 이름 생성;
+                        String name = dataSnapshot.child("username").getValue(String.class) + "님" ; // "님"을 추가하여 표시 이름 생성;
                         Tv_my_name.setText(name);
-                        String Seed = String.valueOf(dataSnapshot.child("spoint").getValue()) + "씨드"; // "님"을 추가하여 표시 이름 생성;
+                        String Seed = String.valueOf(dataSnapshot.child("spoint").getValue()) + "씨드";
                         myPageSeed.setText(Seed);
                     }
                 }
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError databaseError) {
-                    Toast.makeText(MyPageActivity.this, "회원정보를 불러오는데에 실패했습니다.", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(MyPageActivity.this, "회원정보를 불러오는데에 실패했습니다.", Toast.LENGTH_SHORT).show();
                 }
             });
         }
 
         ImageButton pointBtn = findViewById(R.id.pn_move);
-        pointBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MyPageActivity.this, PointHistoryActivity.class);
-                startActivity(intent);
-            }
-        });
+        pointBtn.setOnClickListener(this);
 
         ImageButton checkInBtn = findViewById(R.id.cc_move);
         checkInBtn.setOnClickListener(this);
@@ -88,18 +118,14 @@ public class MyPageActivity extends AppCompatActivity implements View.OnClickLis
         ImageButton quizBtn = findViewById(R.id.qz_move);
         quizBtn.setOnClickListener(this);
 
-        ImageButton donationBtn = findViewById(R.id.gv_move);
-        donationBtn.setOnClickListener(this);
-
         ImageButton ChangeBtn = findViewById(R.id.change_move);
         ChangeBtn.setOnClickListener(this);
 
-        ImageButton orderBtn = findViewById(R.id.jmny_move);
+        ImageButton orderBtn = findViewById(R.id.orderhistory_move);
         orderBtn.setOnClickListener(this);
 
-        ImageButton reviewBtn = findViewById(R.id.rvlist_move);
-        reviewBtn.setOnClickListener(this);
-
+        ImageButton ReviewBtn = findViewById(R.id.hg_move);
+        ReviewBtn.setOnClickListener(this);
 
         ImageButton withdrawalBtn = findViewById(R.id.tt_move);
         withdrawalBtn.setOnClickListener(this);
@@ -108,6 +134,36 @@ public class MyPageActivity extends AppCompatActivity implements View.OnClickLis
         logoutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                showLogoutConfirmationDialog();
+            }
+        });
+        Button seedBtn = findViewById(R.id.seed_move);
+        seedBtn.setOnClickListener(this);
+
+        Button quizeBtn = findViewById(R.id.quiz_move);
+        quizeBtn.setOnClickListener(this);
+
+        Button reviewBtn = findViewById(R.id.review_move);
+        reviewBtn.setOnClickListener(this);
+
+        Button ordermBtn = findViewById(R.id.order_move);
+        ordermBtn.setOnClickListener(this);
+
+        Button checkMeBtn = findViewById(R.id.check_move);
+        checkMeBtn.setOnClickListener(this);
+
+        Button changeBtn = findViewById(R.id.change1_move);
+        changeBtn.setOnClickListener(this);
+
+        Button wdlBtn = findViewById(R.id.wdl_move);
+        wdlBtn.setOnClickListener(this);
+
+        Button logoutmBtn = findViewById(R.id.logout_move);
+        logoutmBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
                 showLogoutConfirmationDialog();
             }
         });
@@ -123,49 +179,81 @@ public class MyPageActivity extends AppCompatActivity implements View.OnClickLis
         if (id == R.id.pn_move) {
             intent = new Intent(MyPageActivity.this, PointHistoryActivity.class);
             startActivity(intent);
+        } else if (id == R.id.seed_move) {
+            intent = new Intent(MyPageActivity.this, PointHistoryActivity.class);
+            startActivity(intent);
+
         } else if (id == R.id.cc_move) {
             intent = new Intent(MyPageActivity.this, AttendanceActivity.class);
             startActivity(intent);
-        }else if (id == R.id.qz_move) {
+        } else if (id == R.id.check_move) {
+            intent = new Intent(MyPageActivity.this, AttendanceActivity.class);
+            startActivity(intent);
+
+        } else if (id == R.id.qz_move) {
             intent = new Intent(MyPageActivity.this, QuizActivity.class);
             startActivity(intent);
-        } else if (id == R.id.gv_move) {
-            intent = new Intent(MyPageActivity.this, DonationCertificateActivity.class);
+        } else if (id == R.id.quiz_move) {
+            intent = new Intent(MyPageActivity.this, QuizActivity.class);
             startActivity(intent);
+
         } else if (id == R.id.change_move) {
             intent = new Intent(MyPageActivity.this, ChangeActivity.class);
             startActivity(intent);
-        } else if (id == R.id.jmny_move) {
+        } else if (id == R.id.change1_move) {
+            intent = new Intent(MyPageActivity.this, ChangeActivity.class);
+            startActivity(intent);
+
+        } else if (id == R.id.orderhistory_move) {
             intent = new Intent(MyPageActivity.this, OrderHistoryActivity.class);
             startActivity(intent);
-        } else if (id == R.id.rvlist_move) {
+        } else if (id == R.id.order_move) {
+            intent = new Intent(MyPageActivity.this, OrderHistoryActivity.class);
+            startActivity(intent);
+
+        } else if (id == R.id.hg_move) {
             intent = new Intent(MyPageActivity.this, ReviewHistoryActivity.class);
             startActivity(intent);
+        } else if (id == R.id.review_move) {
+            intent = new Intent(MyPageActivity.this, ReviewHistoryActivity.class);
+            startActivity(intent);
+
         } else if (id == R.id.tt_move) {
             intent = new Intent(MyPageActivity.this, WithdrawalActivity.class);
             startActivity(intent);
-            //이용 약관 보류
+        } else if (id == R.id.wdl_move) {
+            intent = new Intent(MyPageActivity.this, WithdrawalActivity.class);
+            startActivity(intent);
         }
     }
 
-    //로그아웃ㅅ 확인
+    //로그아웃 확인
     public void showLogoutConfirmationDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(MyPageActivity.this);
-        builder.setTitle("로그아웃");
-        builder.setMessage("정말로 로그아웃하시겠습니까?");
-        builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+
+        dialog.show();
+
+        TextView confirmTextView = dialog.findViewById(R.id.say);
+        confirmTextView.setText("로그아웃하시겠습니까?");
+
+        Button btnno = dialog.findViewById(R.id.btnNo);
+        Button btnok = dialog.findViewById(R.id.btnOk);
+        btnno.setText("아니요");
+        btnok.setText("예");
+
+        btnok.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
+            public void onClick(View v) {
+                // 사용자 계정 삭제
                 logout();
+                dialog.dismiss();
             }
         });
-        builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+        btnno.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
-                // 취소 버튼 클릭 시 아무 작업도 수행하지 않음
+            public void onClick(View v) {
+                dialog.dismiss();
             }
         });
-        builder.create().show();
     }
 
     private void logout() {

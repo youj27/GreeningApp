@@ -2,24 +2,29 @@ package com.example.greeningapp;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,7 +32,7 @@ public class OrderCompleteActivity extends AppCompatActivity {
 
     private String orderId, myOrderId;
 
-    private TextView cmpOrderId, cmpOrderDate, cmp_totalPrice, cmp_name, cmp_phone, cmp_address;
+    private TextView cmpOrderId, cmpOrderDate, cmp_totalPrice, cmp_name, cmp_phone, cmp_address, cmp_postcode;
 
     private Button btnGoMain;
     private FirebaseAuth firebaseAuth;
@@ -39,10 +44,21 @@ public class OrderCompleteActivity extends AppCompatActivity {
     private OrderCompleteAdapter orderCompleteAdapter;
     private List<MyOrder> myOrderList;
 
+    private ImageButton navMain, navCategory, navDonation, navMypage;
+
+    private BottomNavigationView bottomNavigationView;
+
+    DecimalFormat decimalFormat = new DecimalFormat("###,###");
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_complete);
+
+        Toolbar mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true); // 뒤로가기 버튼, 디폴트로 true만 해도 백버튼이 생김
 
         // 데이터베이스 연동 변수 처리
         databaseReference = FirebaseDatabase.getInstance().getReference("CurrentUser");
@@ -66,6 +82,7 @@ public class OrderCompleteActivity extends AppCompatActivity {
         cmp_name = findViewById(R.id.cmp_name);
         cmp_phone = findViewById(R.id.cmp_phone);
         cmp_address = findViewById(R.id.cmp_address);
+        cmp_postcode = (TextView) findViewById(R.id.cmp_postcode);
 
         myOrderList = new ArrayList<>();
 
@@ -82,16 +99,18 @@ public class OrderCompleteActivity extends AppCompatActivity {
 
                         cmpOrderId.setText(myOrder.getOrderId()+"");
                         cmpOrderDate.setText(myOrder.getOrderDate());
-                        cmp_totalPrice.setText(String.valueOf(myOrder.getOverTotalPrice()));
+                        cmp_totalPrice.setText(String.valueOf(decimalFormat.format(myOrder.getOverTotalPrice())) + "원");
                         cmp_name.setText(myOrder.getUserName());
                         cmp_phone.setText(myOrder.getPhone());
                         cmp_address.setText(myOrder.getAddress());
+                        cmp_postcode.setText(myOrder.getPostcode());
                     }
 
                 }
             }
         });
 
+        // 리사이클러 뷰와 연결
         orderCompleteAdapter = new OrderCompleteAdapter(this, myOrderList);
         recyclerView.setAdapter(orderCompleteAdapter);
 
@@ -101,12 +120,54 @@ public class OrderCompleteActivity extends AppCompatActivity {
         btnGoMain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(OrderCompleteActivity.this, ShoppingMainActivity.class);
+                Intent intent = new Intent(OrderCompleteActivity.this, MainActivity.class);
                 startActivity(intent);
             }
         });
 
 
 
+        // 하단바 구현
+        bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigation_ordercp);
+
+        // 초기 선택 항목 설정
+        bottomNavigationView.setSelectedItemId(R.id.tab_shopping);
+
+        // BottomNavigationView의 아이템 클릭 리스너 설정
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                if (item.getItemId() == R.id.tab_home) {
+                    // Home 액티비티로 이동
+                    startActivity(new Intent(OrderCompleteActivity.this, MainActivity.class));
+                    return true;
+                } else if (item.getItemId() == R.id.tab_shopping) {
+                    // Category 액티비티로 이동
+                    startActivity(new Intent(OrderCompleteActivity.this, CategoryActivity.class));
+                    return true;
+                } else if (item.getItemId() == R.id.tab_donation) {
+                    // Donation 액티비티로 이동
+                    startActivity(new Intent(OrderCompleteActivity.this, DonationMainActivity.class));
+                    return true;
+                } else if (item.getItemId() == R.id.tab_mypage) {
+                    // My Page 액티비티로 이동
+                    startActivity(new Intent(OrderCompleteActivity.this, MyPageActivity.class));
+                    return true;
+                }
+                return false;
+            }
+        });
+
+
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int itemId = item.getItemId();
+        if (itemId == android.R.id.home) { //뒤로가기
+            onBackPressed();
+            return true;
+        } else {
+            return super.onOptionsItemSelected(item);
+        }
     }
 }

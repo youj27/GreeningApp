@@ -69,4 +69,3 @@ public class Quiz {
         this.qans = qans;
     }
 }
-

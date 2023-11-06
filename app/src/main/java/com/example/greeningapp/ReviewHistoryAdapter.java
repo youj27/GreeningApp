@@ -16,6 +16,7 @@ import com.bumptech.glide.Glide;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 //public class ReviewHistoryAdapter {
@@ -144,6 +145,10 @@ public class ReviewHistoryAdapter extends RecyclerView.Adapter<ReviewHistoryAdap
     private ArrayList<Review> reviewhistoryList;
     private Context context;
 
+    DecimalFormat decimalFormat = new DecimalFormat("###,###");
+
+    int ProductPrice = 0;
+
 //    FirebaseDatabase database;
 //    FirebaseAuth firebaseAuth;
 //    DatabaseReference databaseReference;
@@ -180,6 +185,7 @@ public class ReviewHistoryAdapter extends RecyclerView.Adapter<ReviewHistoryAdap
         //holder.recyclerRating.setRating(reviewhistoryList.get(position).getRscore());
         holder.reviewdate.setText(String.valueOf(reviewhistoryList.get(position).getRdatetime()));
         holder.ProductPrice.setText(String.valueOf(reviewhistoryList.get(position).getPprice()) + "원");
+        //holder.ProductPrice.setText(decimalFormat.format(reviewhistoryList.get(position).getPprice()) + "원");
         holder.ProductName.setText(String.valueOf(reviewhistoryList.get(position).getPname()));
         holder.TotalQ.setText(String.valueOf(reviewhistoryList.get(position).getTotalquantity()) + "개");
         Glide.with(holder.itemView).load(reviewhistoryList.get(position).getPimg()).into(holder.ProductImg);

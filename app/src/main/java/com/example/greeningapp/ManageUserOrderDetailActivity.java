@@ -86,7 +86,7 @@ public class ManageUserOrderDetailActivity extends AppCompatActivity {
         }
 
         MGOrderName_detail.setText(myOrder.getUserName());
-        MGUserIDToken_detail.setText(myOrder.getUseridtoken());
+        //MGUserIDToken_detail.setText(myOrder.getUseridtoken());
         MGOrderID_detail.setText(myOrder.getOrderId());
         MGEachOrderID_detail.setText(myOrder.getEachOrderedId());
         MGOrderDate_detail.setText(myOrder.getOrderDate());
@@ -99,7 +99,7 @@ public class ManageUserOrderDetailActivity extends AppCompatActivity {
         MGOrderPhone_detail.setText(myOrder.getPhone());
         MGOrderPostcode_detail.setText(myOrder.getPostcode());
         MGOrderAddress_detail.setText(myOrder.getAddress());
-        MGOrderState_detail.setText(myOrder.getOrderstate());
+        //MGOrderState_detail.setText(myOrder.getOrderstate());
         MGOrderDoReview_detail.setText(myOrder.getDoReview());
 
         MGRemoveOrder.setOnClickListener(new View.OnClickListener() {
@@ -125,6 +125,7 @@ public class ManageUserOrderDetailActivity extends AppCompatActivity {
                 btnright1.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        //잠시주석
                         databaseReference.child(String.valueOf(myOrder.getUseridtoken())).child("MyOrder").child(myOrder.getOrderId()).child(myOrder.getEachOrderedId()).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
@@ -175,6 +176,7 @@ public class ManageUserOrderDetailActivity extends AppCompatActivity {
                 btnright1.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        //잠시 주석
                         databaseReference.child(String.valueOf(myOrder.getUseridtoken())).child("MyOrder").child(myOrder.getOrderId()).child(myOrder.getEachOrderedId()).child("orderstate").setValue("shipped").addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
