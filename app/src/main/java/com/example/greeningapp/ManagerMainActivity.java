@@ -19,7 +19,7 @@ public class ManagerMainActivity extends AppCompatActivity {
     private FirebaseAuth mFirebaseAuth; // 파이어베이스 인증 처리
 
 
-    Button ProductManage, AddProduct, UserManage, UserOrderManage, UserReviewManage, Logout, AppMain;
+    Button ProductManage, AddProduct, UserManage, UserOrderManage, UserReviewManage, Logout, AppMain, ReviewDeleteManage; //ReviewDeleteManage 추가
 
 
     @Override
@@ -80,6 +80,17 @@ public class ManagerMainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(ManagerMainActivity.this, ManageUserReviewActivity.class);
                 startActivity(intent);
+            }
+        });
+
+        //잠시추가: ManageReviewDeleteActivity
+        ReviewDeleteManage = (Button) findViewById(R.id.ReviewDeleteManage);
+        ReviewDeleteManage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ManagerMainActivity.this, ManageReviewDeleteActivity.class);
+                startActivity(intent);
+
             }
         });
 

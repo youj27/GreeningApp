@@ -156,6 +156,25 @@
             android:layout_marginRight="8dp"
             android:background="#DADADA" />
 
+<!--        잠시 추가 -->
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/ReviewDeleteManage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginLeft="16dp"
+            android:text="관련없는 후기 삭제"
+            />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:background="#DADADA" />
+<!--        여기까지-->
+
 
     </LinearLayout>
 
