@@ -11,11 +11,15 @@ public class Review {
     private String rdatetime;
     private String username;
 
+    private String idToken;
+
     private String pprice;
 
     private int totalquantity;
 
     private String reviewid;
+
+    private double similarity;
 
     public Review() {
 
@@ -104,5 +108,18 @@ public class Review {
 
     public void setReviewid(String reviewid) {
         this.reviewid = reviewid;
+    }
+
+    public String getIdToken() {
+        return idToken;
+    }
+
+    public void setIdToken(String idToken) {
+        this.idToken = idToken;
+    }
+
+    // 추가: 유사도 설정 메서드
+    public void setSimilarity(double similarity) {
+        this.similarity = similarity;
     }
 }

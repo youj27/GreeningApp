@@ -334,6 +334,7 @@ public class ReviewWriteActivity extends AppCompatActivity {
         productRef.child("pimg").setValue(product.getOrderImg());
         productRef.child("username").setValue(product.getUserName());
         productRef.child("pprice").setValue(product.getProductPrice());
+        productRef.child("idToken").setValue(product.getUseridtoken()); //추가
         productRef.child("totalquantity").setValue(product.getTotalQuantity());
         productRef.child("rimage").setValue(reviewImage);
         productRef.child("rcontent").setValue(fn);

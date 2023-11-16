@@ -133,6 +133,8 @@ public class ReviewHistoryActivity extends AppCompatActivity {
 
     private String username;
 
+    private String idToken; //idToken으로 변경중
+
     private BottomNavigationView bottomNavigationView;
 
 
@@ -175,9 +177,9 @@ public class ReviewHistoryActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 User user = dataSnapshot.getValue(User.class);
                 if (user != null) {
-                    username = user.getUsername();
+                    idToken = user.getIdToken();
 
-                    Query reviewhistoryQuery = databaseReference.orderByChild("username").equalTo(username);
+                    Query reviewhistoryQuery = databaseReference.orderByChild("idToken").equalTo(idToken);
                     reviewhistoryQuery.addListenerForSingleValueEvent(new ValueEventListener() {
                         @SuppressLint("NotifyDataSetChanged")
                         @Override
@@ -186,7 +188,7 @@ public class ReviewHistoryActivity extends AppCompatActivity {
                             for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                                 Review review = snapshot.getValue(Review.class);
                                 reviewhistoryList.add(review);
-                                Log.d("usename", review.getUsername() + "가져왔음");
+                                Log.d("useridtoken", review.getIdToken() + "가져왔음");
                             }
                             adapter.notifyDataSetChanged();
                         }
