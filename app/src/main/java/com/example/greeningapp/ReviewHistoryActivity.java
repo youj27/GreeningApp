@@ -130,14 +130,8 @@ public class ReviewHistoryActivity extends AppCompatActivity {
     private RecyclerView.LayoutManager layoutManager;
 
     private DatabaseReference databaseReference2;
-
-    private String username;
-
-    private String idToken; //idToken으로 변경중
-
+    private String idToken;
     private BottomNavigationView bottomNavigationView;
-
-
     private ImageButton navMain, navCategory, navDonation, navMypage;
     Toolbar toolbar;
     DecimalFormat decimalFormat = new DecimalFormat("###,###");
@@ -149,11 +143,12 @@ public class ReviewHistoryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_review_history);
 
+        // 툴바 설정
         toolbar = findViewById(R.id.ReviewHistoryToolbar);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayShowCustomEnabled(true); //커스터마이징 하기 위해 필요
-        actionBar.setDisplayShowTitleEnabled(false);//기본 제목 삭제.
+        actionBar.setDisplayShowCustomEnabled(true);
+        actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeAsUpIndicator(R.drawable.baseline_arrow_back_24);
 
@@ -163,13 +158,11 @@ public class ReviewHistoryActivity extends AppCompatActivity {
         layoutManager = new LinearLayoutManager(this);
         reviewhistoryList = new ArrayList<>();
 
+        // 파이어베이스 설정
         database = FirebaseDatabase.getInstance(); //파이어베이스 연동
-        //firebaseAuth = FirebaseAuth.getInstance();
-        databaseReference = database.getReference("Review"); // Firebase Realtime Database에서 "Review" 항목을 가져옵니다.
-
+        databaseReference = database.getReference("Review"); // Firebase Realtime Database에서 "Review" 항목을 가져오기
         firebaseAuth = FirebaseAuth.getInstance();
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
-
         databaseReference2 = FirebaseDatabase.getInstance().getReference("User");
 
         databaseReference2.child(firebaseUser.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -177,9 +170,9 @@ public class ReviewHistoryActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 User user = dataSnapshot.getValue(User.class);
                 if (user != null) {
-                    idToken = user.getIdToken();
+                    idToken = user.getIdToken(); // user idToken 가져오기
 
-                    Query reviewhistoryQuery = databaseReference.orderByChild("idToken").equalTo(idToken);
+                    Query reviewhistoryQuery = databaseReference.orderByChild("idToken").equalTo(idToken); // idToken을 사용하여 본인이 쓴 후기 가져오기
                     reviewhistoryQuery.addListenerForSingleValueEvent(new ValueEventListener() {
                         @SuppressLint("NotifyDataSetChanged")
                         @Override
@@ -194,9 +187,10 @@ public class ReviewHistoryActivity extends AppCompatActivity {
                         }
                         @Override
                         public void onCancelled(@NonNull DatabaseError databaseError) {
-                            Log.e("ReviewHistoryActivity", String.valueOf(databaseError.toException()));
+                            Log.e("ReviewHistoryActivity", String.valueOf(databaseError.toException())); // 에러 메시지 출력
                         }
                     });
+                    // 어댑터 초기화, 어댑터 설정
                     adapter = new ReviewHistoryAdapter(reviewhistoryList, ReviewHistoryActivity.this);
                     recyclerView.setAdapter(adapter);
                 }
@@ -206,11 +200,11 @@ public class ReviewHistoryActivity extends AppCompatActivity {
             }
         });
 
-        // 하단바 구현
+        // 하단바 설정
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigation_reviewhistory);
-        // 초기 선택 항목 설정
         bottomNavigationView.setSelectedItemId(R.id.tab_mypage);
-        // BottomNavigationView의 아이템 클릭 리스너 설정
+
+        // 하단바 아이템 클릭
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -227,7 +221,7 @@ public class ReviewHistoryActivity extends AppCompatActivity {
                     startActivity(new Intent(ReviewHistoryActivity.this, DonationMainActivity.class));
                     return true;
                 } else if (item.getItemId() == R.id.tab_mypage) {
-                    // My Page 액티비티로 이동
+                    // MyPage 액티비티로 이동
                     startActivity(new Intent(ReviewHistoryActivity.this, MyPageActivity.class));
                     return true;
                 }
@@ -237,10 +231,11 @@ public class ReviewHistoryActivity extends AppCompatActivity {
 
     }
 
+    // 뒤로가기
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int itemId = item.getItemId();
-        if (itemId == android.R.id.home) { //뒤로가기
+        if (itemId == android.R.id.home) {
             onBackPressed();
             return true;
         } else {
@@ -248,28 +243,3 @@ public class ReviewHistoryActivity extends AppCompatActivity {
         }
     }
 }
-
-
-
-//        Query reviewhistoryQuery = databaseReference2.orderByChild("username").equalTo("uz");
-//
-//        reviewhistoryQuery.addListenerForSingleValueEvent(new ValueEventListener() {
-//            @SuppressLint("NotifyDataSetChanged")
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                reviewhistoryList.clear();
-//                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-//                    Review review = snapshot.getValue(Review.class);
-//                    reviewhistoryList.add(review);
-//                    Log.d("usename",review.getUsername() +"가져왔음");
-//
-//                }
-//                adapter.notifyDataSetChanged();
-//            }
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError databaseError) {
-//                Log.e("ReviewHistoryActivity", String.valueOf(databaseError.toException()));
-//            }
-//        });
-//        adapter = new ReviewHistoryAdapter(reviewhistoryList, this);
-//        recyclerView.setAdapter(adapter);

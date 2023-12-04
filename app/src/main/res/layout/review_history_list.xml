@@ -73,23 +73,7 @@
 
             </LinearLayout>
 
-
-
             </LinearLayout>
-
-
-
-<!--            <RatingBar-->
-<!--                android:id="@+id/reviewhistoryRate"-->
-<!--                style="@style/Widget.AppCompat.RatingBar.Small"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginLeft="8dp"-->
-<!--                android:max="5"-->
-<!--                android:numStars="5"-->
-<!--                android:progressTint="@android:color/holo_orange_light"-->
-<!--                android:rating="4.5">-->
-<!--            </RatingBar>-->
 
 
     </LinearLayout>
